@@ -3,6 +3,8 @@ app/cache/*
 
 app/logs/*
 
+.idea/*
+
 app/config/parameters.yml
 app/config/*.local.yml
 behat.yml
