@@ -1,0 +1,36 @@
+{% extends 'AppBundle:Frontend:layout.html.twig' %}
+
+{% block slideshow_full %}
+    {#<div class="row">#}
+        {#{{ sonata_block_render({'name': '/cms/blocks/slideshow-full'}) }}#}
+    {#</div>#}
+{% endblock %}
+
+{% block slideshow_sidebar %}
+    {#<div class="row">#}
+        {#{{ sonata_block_render({'name': '/cms/blocks/slideshow-sidebar'}) }}#}
+    {#</div>#}
+{% endblock %}
+
+
+{% block content %}
+
+{{ sonata_block_render({'name': '/cms/blocks/slideshow-home'}) }}
+
+
+    <div class="container main-container">
+
+
+        <div class="row featuredPostContainer globalPadding style2">
+            <h3 class="section-title style2 text-center"><span>NEW ARRIVALS</span></h3>
+            <div id="productslider" class="owl-carousel owl-theme">
+
+                {{ render(url('sylius_partial_product_latest', {'limit': 9, 'template': 'AppBundle:Frontend/Product:latest.html.twig'})) }}
+            </div>
+        </div>
+    </div>
+    <!-- /main container -->
+
+
+
+{% endblock %}

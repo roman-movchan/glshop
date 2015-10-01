@@ -34,10 +34,11 @@ a:hover, a:focus {
 	color: #FFFFFF;
 }
 .navbar-top {
-	background:#283949;
+	background:black;
 }
 .navbar-tshop {
-	background:#34495e;
+	background: #34495e;
+    color: black;
 }
 .site-color {
 	color:#34495e !important;
@@ -175,4 +176,27 @@ darkcoilor {
 }
 citecolor {
 	color:#34495e !important;
+}
+
+.brand-block {
+	background: white;
+    padding-top: 10px;
+}
+
+.navbar .brand-block {
+    height: 100px;
+
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 11px;
+    text-transform: uppercase;
+}
+.navbar.stuck .brand-block {
+    margin-top: -100px;
+}
+
+@media (min-width: 1800px) {
+    .banner, .slider-content, .slider, .slider-v2 {
+        max-height: 300px;
+    }
 }
