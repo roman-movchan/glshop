@@ -810,7 +810,7 @@ legend {
 }
 }
 .navbar-nav > li > a {
-	color: #FFFFFF;
+	/*color: #FFFFFF;*/
 	font-size: 14px;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -858,7 +858,7 @@ legend {
 }
 .btn-nobg {
 	background: none;
-	color: #fff;
+	/*color: #fff;*/
 }
 .search-box:hover .btn-nobg {
 	background: #fff;
@@ -961,8 +961,8 @@ legend {
 .searchInputBox .search-btn {
 	border: none;
 	padding: 0 10px 0 0;
-	color: #fff;
-	color: rgba(255, 255, 255, 0.8);
+	/*color: #fff;*/
+	/*color: rgba(255, 255, 255, 0.8);*/
 }
 .search-full.active {
 	display: block;
@@ -1010,7 +1010,7 @@ legend {
 	padding-top: 15px;
 	padding-left: 20px;
 	padding-right: 20px;
-	color: #FFFFFF;
+
 	font-size: 14px;
 	font-weight: 600;
 	text-transform: uppercase;

@@ -85,8 +85,8 @@
                     <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
                         <div class="pull-left ">
                             <ul class="userMenu ">
-                                <li> <a href="#"> <span class="hidden-xs">HELP</span><i class="glyphicon glyphicon-info-sign hide visible-xs "></i> </a> </li>
-                                <li class="phone-number"> <a  href="callto:+380969182351"> <span> <i class="glyphicon glyphicon-phone-alt "></i></span> <span class="hidden-xs" style="margin-left:5px"> 88 01680 53 1352 </span> </a> </li>
+                                <li> <a href="#"> <span class="hidden-xs">Помощь</span><i class="glyphicon glyphicon-info-sign hide visible-xs "></i> </a> </li>
+                                <li class="phone-number"> <a  href="callto:+380969182351"> <span> <i class="glyphicon glyphicon-phone-alt "></i></span> <span class="hidden-xs" style="margin-left:5px"> 096 918-23-51 </span> </a> </li>
                             </ul>
                         </div>
                     </div>
@@ -95,8 +95,8 @@
                             {#{{ knp_menu_render('sylius.frontend.main', {'template': 'SyliusWebBundle:Frontend:menu.html.twig'}) }}#}
                             <ul class="userMenu">
 
-                                <li> <a href="{{ path('sylius_user_security_login') }}"> <span class="hidden-xs">Log in</span> <i class="glyphicon glyphicon-log-in hide visible-xs "></i> </a> </li>
-                                <li class="hidden-xs"> <a href="{{ path('sylius_user_registration') }}"> Register </a> </li>
+                                <li> <a href="{{ path('sylius_user_security_login') }}"> <span class="hidden-xs">Войти</span> <i class="glyphicon glyphicon-log-in hide visible-xs "></i> </a> </li>
+                                <li class="hidden-xs"> <a href="{{ path('sylius_user_registration') }}"> Зарегистироваться </a> </li>
 
                                 {#<li> <a href="{{ path('sylius_user_security_login') }}"  data-toggle="modal" data-target="#ModalLogin"> <span class="hidden-xs">Log in</span> <i class="glyphicon glyphicon-log-in hide visible-xs "></i> </a> </li>#}
                                 {#<li class="hidden-xs"> <a href="#"  data-toggle="modal" data-target="#ModalSignup"> Register </a> </li>#}
@@ -506,7 +506,7 @@
         {% block banner %}{% endblock banner %}
 
 
-        <div class="container">
+        <div class="content container">
             {% block flashes %}
                 {% for type in ['success', 'error', 'notice'] %}
                     {% for flash in app.session.flashbag.get(type) %}
@@ -622,7 +622,13 @@
         <div class="footer-bottom">
             <div class="container">
                 <p class="pull-left"> &copy; GoodLook 2014-{{ 'now'|date('Y') }}. All right reserved. </p>
-                <div class="pull-right paymentMethodImg"> <img height="30" class="pull-right" src="/images/site/payment/master_card.png" alt="img" > <img height="30" class="pull-right" src="/images/site/payment/paypal.png" alt="img" > <img height="30" class="pull-right" src="/images/site/payment/american_express_card.png" alt="img" > <img  height="30" class="pull-right" src="/images/site/payment/discover_network_card.png" alt="img" > <img  height="30" class="pull-right" src="/images/site/payment/google_wallet.png" alt="img" > </div>
+                <div class="pull-right paymentMethodImg">
+                    {#<img height="30" class="pull-right" src="/images/site/payment/master_card.png" alt="img" > #}
+                    {#<img height="30" class="pull-right" src="/images/site/payment/paypal.png" alt="img" > #}
+                    {#<img height="30" class="pull-right" src="/images/site/payment/american_express_card.png" alt="img" > #}
+                    {#<img  height="30" class="pull-right" src="/images/site/payment/discover_network_card.png" alt="img" > #}
+                    {#<img  height="30" class="pull-right" src="/images/site/payment/google_wallet.png" alt="img" > #}
+                </div>
             </div>
         </div>
         {#{{ knp_menu_render('sylius.frontend.social', {'template': 'SyliusWebBundle:Frontend:menu.html.twig'}) }}#}

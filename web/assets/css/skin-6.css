@@ -1,11 +1,11 @@
 
 
 ::selection {
- color:#fff;
+ /*color:#fff;*/
  background:#2c3e50;
 }
 ::-moz-selection {
- color:#fff;
+ /*color:#fff;*/
  background:#2c3e50;
 }
 ::-webkit-selection {
@@ -37,23 +37,24 @@ a:hover, a:focus {
 	background:black;
 }
 .navbar-tshop {
-	background: #34495e;
+	background: white;
     color: black;
+    border-bottom:  4px solid gainsboro;
 }
 .site-color {
 	color:#34495e !important;
 }
 .navbar-nav > li > a {
-	color:#fff;
+	color:black;
 }
 .nav > li.active, .nav > li > a:hover, .nav > li > a:focus, .nav > li:hover > a {
-	background:#2c3e50;
+	background:gainsboro;
 }
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus, .cartMenu:hover > a.dropdown-toggle {
-	background:#2c3e50;
+	background:gainsboro;
 }
 .dropdown-menu {
-	border-top: solid #2c3e50;
+	border-top: solid gainsboro;
 }
 .search-box:hover .form-control {
 	background:#34495e;
@@ -62,7 +63,7 @@ a:hover, a:focus {
 	color:#34495e;
 }
 .searchInputBox .search-btn {
-	color:#fff;
+	color:black;
 }
 .mCS-dark-2 > .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
 	background:rgba(52, 73, 94, 0.7) !important;
@@ -200,7 +201,7 @@ citecolor {
 }
 
 .content {
-    margin-top: 30px;
+    padding-top: 30px;
 }
 @media (min-width: 1800px) {
     .banner, .slider-content, .slider, .slider-v2 {
