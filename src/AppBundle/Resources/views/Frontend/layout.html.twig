@@ -92,8 +92,7 @@
                     </div>
                     <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6 no-margin no-padding">
                         <div class="pull-right">
-                            {#{{ knp_menu_render('sylius.frontend.main', {'template': 'SyliusWebBundle:Frontend:menu.html.twig'}) }}#}
-                            {{ knp_menu_render('app.frontend.user', {'template': 'AppBundle::menu.html.twig'}) }}
+                            {{ knp_menu_render('app.frontend.user', {'template': 'AppBundle:Frontend:menu.html.twig'}) }}
                             {#<ul class="userMenu">#}
 
                                 {#<li> <a href="{{ path('sylius_user_security_login') }}"> <span class="hidden-xs">Войти</span> <i class="glyphicon glyphicon-log-in hide visible-xs "></i> </a> </li>#}
