@@ -24,7 +24,6 @@ bin/phpunit
 bin/phpcrodm
 bin/phpcrodm.php
 bin/jackalope
-bin/phpunit
 vendor/*
 
 composer.phar
