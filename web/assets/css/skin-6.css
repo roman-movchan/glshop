@@ -203,6 +203,10 @@ citecolor {
 .content {
     padding-top: 30px;
 }
+
+.cartMenu {
+    color: black;
+}
 @media (min-width: 1800px) {
     .banner, .slider-content, .slider, .slider-v2 {
         max-height: 300px;

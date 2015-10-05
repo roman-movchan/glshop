@@ -1,1 +1,51 @@
-services: ~
+services:
+    app.menu_builder.frontend:
+            class: AppBundle\Menu\FrontendMenuBuilder
+            arguments: ['@knp_menu.factory', '@security.context', '@translator', '@event_dispatcher', '@sylius.authorization_checker', '@sylius.currency_provider', '@sylius.repository.taxonomy', '@sylius.cart_provider', '@sylius.templating.helper.currency', '@sylius.context.channel']
+            calls:
+                - [setRequest, ['@?request']]
+
+    app.menu.frontend.main:
+        class: Knp\Menu\MenuItem
+        tags:
+            - { name: knp_menu.menu, alias: sylius.frontend.main }
+        factory_method: createMainMenu
+        factory_service: sylius.menu_builder.frontend
+        arguments: ['@request']
+        scope: request
+    app.menu.frontend.currency:
+        class: Knp\Menu\MenuItem
+        tags:
+            - { name: knp_menu.menu, alias: sylius.frontend.currency }
+        factory_method: createCurrencyMenu
+        factory_service: sylius.menu_builder.frontend
+    app.menu.frontend.locale:
+        class: Knp\Menu\MenuItem
+        tags:
+            - { name: knp_menu.menu, alias: sylius.frontend.locale }
+        factory_method: createMenu
+        factory_service: sylius.menu_builder.locale
+    app.menu.frontend.taxonomies:
+        class: Knp\Menu\MenuItem
+        tags:
+            - { name: knp_menu.menu, alias: sylius.frontend.taxonomies }
+        factory_method: createTaxonomiesMenu
+        factory_service: sylius.menu_builder.frontend
+        arguments: ['@request']
+        scope: request
+    sylius.menu.frontend.account:
+        class: Knp\Menu\MenuItem
+        tags:
+            - { name: knp_menu.menu, alias: sylius.frontend.account }
+        factory_method: createAccountMenu
+        factory_service: sylius.menu_builder.frontend
+        arguments: ['@request']
+        scope: request
+    app.menu.frontend.social:
+        class: Knp\Menu\MenuItem
+        tags:
+            - { name: knp_menu.menu, alias: sylius.frontend.social }
+        factory_method: createSocialMenu
+        factory_service: sylius.menu_builder.frontend
+        arguments: ['@request']
+        scope: request

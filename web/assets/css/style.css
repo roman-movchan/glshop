@@ -1501,7 +1501,7 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
 .banner, .slider-content, .slider, .slider-v2 {
 	width: 100%;
 	display: block;
-	max-height: 540px;
+	/*max-height: 540px;*/
 	height: auto;
 	overflow: hidden;
 	position: relative;
@@ -2264,8 +2264,8 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
 	-webkit-transition: all 0.3s ease 0s;
 	-o-transition: all 0.3s ease 0s;
 	-ms-transition: all 0.3s ease 0s;
-	border: 1px solid #DDDDDD;
-	border-bottom: 1px solid #DDDDDD;
+	border: 1px solid white;
+	border-bottom: 1px solid white;
 	text-align: center;
 }
 .product:hover {
@@ -2433,11 +2433,11 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
 	margin: 0 auto;
 }
 .product:hover .image a img {
-	transform: scale(1.15) rotate(-1.5deg);
-	-webkit-transform: scale(1.1) rotate(-1.5deg);
-	-moz-transform: scale(1.1) rotate(-1.5deg);
-	-ms-transform: scale(1.1) rotate(-1.5deg);
-	-o-transform: scale(1.1) rotate(-1.5deg);
+	/*transform: scale(1.15) rotate(-1.5deg);*/
+	/*-webkit-transform: scale(1.1) rotate(-1.5deg);*/
+	/*-moz-transform: scale(1.1) rotate(-1.5deg);*/
+	/*-ms-transform: scale(1.1) rotate(-1.5deg);*/
+	/*-o-transform: scale(1.1) rotate(-1.5deg);*/
 }
 .promotion {
 	position: absolute;
@@ -4046,7 +4046,7 @@ div.quickview {
 
 @media (min-width: 1800px) {
 .banner, .slider-content, .slider, .slider-v2 {
- max-height: 450px;
+ /*max-height: 450px;*/
 }
 .sliderImg {
  width: 100%;

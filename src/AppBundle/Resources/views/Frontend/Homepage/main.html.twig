@@ -104,10 +104,8 @@
 
 
     <div class="container main-container">
-
-
         <div class="row featuredPostContainer  style2">
-            <h3 class="section-title style2 text-center"><span>NEW ARRIVALS</span></h3>
+            <h3 class="section-title style2 text-center"><span>Новинки</span></h3>
             <div id="productslider" class="owl-carousel owl-theme">
 
                 {{ render(url('sylius_partial_product_latest', {'limit': 9, 'template': 'AppBundle:Frontend/Product:latest.html.twig'})) }}

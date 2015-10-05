@@ -55,7 +55,7 @@ $(document).ready(function () {
         fx: 'scrollHorz',
         //Name of transition effect 
         slides: '.slider-item',
-        timeout: 5000,
+        timeout: 500000,
         // set time for nex slide 
         speed: 1200,
         easeIn: 'easeInOutExpo',

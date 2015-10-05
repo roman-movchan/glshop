@@ -9,16 +9,16 @@
 
 <div class="item">
     <div class="product">
-        <a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist"  data-placement="left">
+        <a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="В список желаний"  data-placement="left">
             <i class="glyphicon glyphicon-heart"></i>
         </a>
 
         <div class="image">
             <div class="quickview">
-                <a title="Quick View" class="btn btn-xs  btn-quickview" data-target="#product-details-modal" data-toggle="modal"> Quick View </a>
+                <a title="Быстрый просмотр" class="btn btn-xs  btn-quickview" data-target="#product-details-modal" data-toggle="modal"> Быстрый просмотр </a>
             </div><a href="{{ path(product) }}"><img class="img-rounded img-responsive" src="{{ product.image ? product.image.path|imagine_filter('sylius_medium') : 'http://placehold.it/262x255' }}" alt="{{ product.name }}" /></a></div>
         <h4><a href="{{ path(product) }}">{{ product.name }}</a></h4>
         <div class="price"> <span>{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span> </div>
-        <div class="action-control"> <a class="btn btn-primary"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart </span> </a> </div>
+        <div class="action-control"> <a class="btn btn-primary"> <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> В корзину </span> </a> </div>
     </div>
 </div>
