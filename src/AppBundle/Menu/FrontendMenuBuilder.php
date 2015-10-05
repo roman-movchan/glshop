@@ -116,15 +116,19 @@ class FrontendMenuBuilder extends MenuBuilder
 
         $menu->addChild('cart', array(
             'route' => 'sylius_cart_summary',
-            'linkAttributes' => array('title' => $this->translate('sylius.frontend.menu.main.cart', array(
-                '%items%' => $cartTotals['items'],
-                '%total%' => $this->currencyHelper->convertAndFormatAmount($cartTotals['total'])
-            ))),
+            'linkAttributes' => [
+                'title' => $this->translate('sylius.frontend.menu.main.cart', array(
+                    '%items%' => $cartTotals['items'],
+                    '%total%' => $this->currencyHelper->convertAndFormatAmount($cartTotals['total'])
+                    )),
+                'class' => 'dropdown-toggle'
+            ],
             'labelAttributes' => array('icon' => 'icon-shopping-cart icon-large'),
         ))->setLabel($this->translate('sylius.frontend.menu.main.cart', array(
             '%items%' => $cartTotals['items'],
             '%total%' => $this->currencyHelper->convertAndFormatAmount($cartTotals['total'])
         )));
+        //TODO: add items in cart
 
         $this->eventDispatcher->dispatch(MenuBuilderEvent::FRONTEND_MAIN, new MenuBuilderEvent($this->factory, $menu));
 
