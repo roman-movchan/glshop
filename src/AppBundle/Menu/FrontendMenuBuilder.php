@@ -142,6 +142,8 @@ class FrontendMenuBuilder extends MenuBuilder
      */
     public function createUserMenu()
     {
+        //TODO: залогиненый пользоывтель ломает мегаменю (почему-то черный бекграунд)
+
         $menu = $this->factory->createItem('root', array(
             'childrenAttributes' => array(
                 'class' => 'userMenu'
