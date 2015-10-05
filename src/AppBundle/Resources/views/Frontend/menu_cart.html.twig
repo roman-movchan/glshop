@@ -8,15 +8,48 @@
     {% if item.labelAttribute('data-image') %}<img src="{{ item.labelAttribute('data-image')|imagine_filter('sylius_small') }}" alt="{{ item.name }}" class="menu-thumbnail"/>{% endif %}
 {% endblock %}
 
+{% macro attributes(attributes) %}
+    {% for name, value in attributes %}
+        {%- if value is not none and value is not sameas(false) -%}
+            {{- ' %s="%s"'|format(name, value is sameas(true) ? name|e : value|e)|raw -}}
+        {%- endif -%}
+    {%- endfor -%}
+{% endmacro %}
+
+{% block compressed_root %}
+    {% spaceless %}
+        {{ block('root') }}
+    {% endspaceless %}
+{% endblock %}
+
+{% block root %}
+    {% set listAttributes = item.childrenAttributes %}
+    {{ block('list') -}}
+{% endblock %}
+
 {% block list %}
     {% if item.hasChildren and options.depth is not sameas(0) and item.displayChildren %}
-        <div class="dropdown  cartMenu">
+        <ul{{ _self.attributes(listAttributes) }}>
             {{ block('children') }}
-        </div>
+        </ul>
     {% endif %}
 {% endblock %}
 
-{% block linkElement %}<a href="{{ item.uri }}" class="dropdown-toggle" data-toggle="dropdown">{{ block('label') }}</a>{% endblock %}
+{% block children %}
+    {# save current variables #}
+    {% set currentOptions = options %}
+    {% set currentItem = item %}
+    {# update the depth for children #}
+    {% if options.depth is not none %}
+        {% set options = currentOptions|merge({'depth': currentOptions.depth - 1}) %}
+    {% endif %}
+    {% for item in currentItem.children %}
+        {{ block('item') }}
+    {% endfor %}
+    {# restore current variables #}
+    {% set item = currentItem %}
+    {% set options = currentOptions %}
+{% endblock %}
 
 {% block item %}
     {% if item.displayed %}
@@ -38,7 +71,7 @@
             {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
         {%- endif %}
         {# displaying the item #}
-
+        <li{{ _self.attributes(attributes) }}>
             {%- if item.uri is not empty and (not item.current or options.currentAsLink) %}
                 {{ block('linkElement') }}
             {%- else %}
@@ -49,7 +82,8 @@
             {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}
             {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
             {{ block('list') }}
-
+        </li>
     {% endif %}
 {% endblock %}
 
+{% block linkElement %}<a href="{{ item.uri }}"{{ _self.attributes(item.linkAttributes) }}>{{ block('label') }}</a>{% endblock %}
