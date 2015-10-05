@@ -29,9 +29,9 @@
 
 {% block list %}
     {% if item.hasChildren and options.depth is not sameas(0) and item.displayChildren %}
-        <ul{{ _self.attributes(listAttributes) }}>
+        <div{{ _self.attributes(listAttributes) }}>
             {{ block('children') }}
-        </ul>
+        </div>
     {% endif %}
 {% endblock %}
 
@@ -71,7 +71,7 @@
             {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
         {%- endif %}
         {# displaying the item #}
-        <li{{ _self.attributes(attributes) }}>
+        <div{{ _self.attributes(attributes) }}>
             {%- if item.uri is not empty and (not item.current or options.currentAsLink) %}
                 {{ block('linkElement') }}
             {%- else %}
@@ -82,7 +82,7 @@
             {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}
             {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
             {{ block('list') }}
-        </li>
+        </div>
     {% endif %}
 {% endblock %}
 
