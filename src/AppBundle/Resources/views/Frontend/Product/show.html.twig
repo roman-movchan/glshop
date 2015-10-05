@@ -20,9 +20,11 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <!-- product Image and Zoom -->
                 <div class="main-image sp-wrap col-lg-12 no-padding">
-                    <a href="/images/zoom/zoom1hi.jpg"><img src="/images/zoom/zoom1.jpg" class="img-responsive" alt="img"></a>
-                    <a href="/images/zoom/zoom2hi.jpg"><img src="/images/zoom/zoom2.jpg" class="img-responsive" alt="img"></a>
-                    <a href="/images/zoom/zoom3hi.jpg"><img src="/images/zoom/zoom3.jpg" class="img-responsive" alt="img"></a>
+                    {% for image in product.images %}
+                        <a href="{{ image.path|imagine_filter('sylius_large') }}" title="{{ product.name }}">
+                            <img class="img-rounded" src="{{ image.path|imagine_filter('sylius_large') }}"  class="img-responsive" alt="{{ product.name }}" />
+                        </a>
+                    {% endfor %}
                 </div>
             </div><!--/ left column end -->
 
@@ -30,122 +32,176 @@
             <!-- right column -->
             <div class="col-lg-6 col-md-6 col-sm-5">
 
-                <h1 class="product-title"> Lorem ipsum dolor sit amet</h1>
-                <h3 class="product-code">Product Code : DEN1098</h3>
+                <h1 class="product-title">{{ product.name }}</h1>
+                <h3 class="product-code">Product Code : {{ product.sku }}</h3>
                 <div class="product-price">
-                    <span class="price-sales"> $70</span>
-                    <span class="price-standard">$95</span>
+                    <span class="price-sales"> {{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
+                    <span class="price-standard">{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
                 </div>
 
                 <div class="details-description">
-                    <p>In scelerisque libero ut elit porttitor commodo Suspendisse laoreet magna. </p>
+                    <p>{{ product.shortDescription|default('sylius.product.no_description')|trans|raw }}</p>
                 </div>
 
-                <div class="color-details">
-                    <span class="selected-color"><strong>COLOR</strong></span>
-                    <ul class="swatches Color">
-                        <li class="selected"> <a style="background-color:#f1f40e" > </a> </li>
-                        <li> <a style="background-color:#adadad" > </a> </li>
-                        <li> <a style="background-color:#4EC67F" > </a> </li>
-                    </ul>
-                </div>
-                <!--/.color-details-->
+                <form action="{{ path('sylius_cart_item_add', {'id': product.id}) }}" method="post" class="clearfix form-horizontal">
 
-                <div class="productFilter productFilterLook2">
-                    <div class="filterBox">
-                        <select>
-                            <option value="strawberries" selected>Quantity</option>
-                            <option value="mango">1</option>
-                            <option value="bananas">2</option>
-                            <option value="watermelon">3</option>
-                            <option value="grapes">4</option>
-                            <option value="oranges">5</option>
-                            <option value="pineapple">6</option>
-                            <option value="peaches">7</option>
-                            <option value="cherries">8</option>
-                        </select>
+                    <div class="color-details">
+                        <span class="selected-color"><strong>COLOR</strong></span>
+                        <ul class="swatches Color">
+                            <li class="selected"> <a style="background-color:#f1f40e" > </a> </li>
+                            <li> <a style="background-color:#adadad" > </a> </li>
+                            <li> <a style="background-color:#4EC67F" > </a> </li>
+                        </ul>
                     </div>
-                    <div class="filterBox">
-                        <select>
-                            <option value="strawberries" selected>Size</option>
-                            <option value="mango">XL</option>
-                            <option value="bananas">XXL</option>
-                            <option value="watermelon">M</option>
-                            <option value="apples">L</option>
-                            <option value="apples">S</option>
-                        </select>
+                    <!--/.color-details-->
+
+                    {{ form_widget(form._token) }}
+
+                    <div class="productFilter productFilterLook2">
+                        <div class="filterBox">
+                            <select>
+                                <option value="strawberries" selected>Quantity</option>
+                                <option value="mango">1</option>
+                                <option value="bananas">2</option>
+                                <option value="watermelon">3</option>
+                                <option value="grapes">4</option>
+                                <option value="oranges">5</option>
+                                <option value="pineapple">6</option>
+                                <option value="peaches">7</option>
+                                <option value="cherries">8</option>
+                            </select>
+                        </div>
+                        <div class="filterBox">
+                            <select>
+                                <option value="strawberries" selected>Size</option>
+                                <option value="mango">XL</option>
+                                <option value="bananas">XXL</option>
+                                <option value="watermelon">M</option>
+                                <option value="apples">L</option>
+                                <option value="apples">S</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <!-- productFilter -->
+                    <!-- productFilter -->
 
-                <div class="cart-actions">
-                    <div class="addto">
-                        <button onclick="productAddToCartForm.submit(this);" class="button btn-cart cart first" title="Add to Cart" type="button">Add to Cart</button>
-                        <a class="link-wishlist wishlist"  >Add to Wishlist</a> </div>
+                            {% if product.hasVariants %}
+                                {% if product.isVariantSelectionMethodChoice %}
+                                    <table class="table table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>{{ 'sylius.variant.price'|trans }}</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for variant in product.variants if variant.available %}
+                                            <tr>
+                                                <td>
+                                                    {% if variant.presentation is empty %}
+                                                        <ul class="unstyled">
+                                                            {% for option in variant.options %}
+                                                                <li><strong>{{ option.presentation }}</strong>: {{ option.value }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    {% else %}
+                                                        {{ variant.presentation }}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <span class="label label-success">{{ sylius_calculate_price(variant)|sylius_price }}</span>
+                                                </td>
+                                                <td>
+                                                    {% if sylius_inventory_is_available(variant) %}
+                                                        {{ form_widget(form.variant[loop.index0]) }}
+                                                    {% else %}
+                                                        <span class="label label-warning">{{ 'sylius.out_of_stock'|trans }}</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <div class="">
+                                        {{ form_widget(form.variant) }}
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <h4>
+                                    <span class="label label-success pull-right">{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
+                                    {{ 'sylius.variant.price'|trans }}
+                                </h4>
+                            {% endif %}
 
-                    <div style="clear:both"></div>
 
-                    <h3 class="incaps"><i class="fa fa fa-check-circle-o color-in"></i> In stock</h3>
-                    <h3 style="display:none" class="incaps"><i class="fa fa-minus-circle color-out"></i> Out of stock</h3>
-                    <h3 class="incaps"> <i class="glyphicon glyphicon-lock"></i> Secure online ordering</h3>
-                </div>
-                <!--/.cart-actions-->
+
+
+                    <div class="cart-actions">
+                        {{ form_row(form.quantity, {'attr': {'class': 'center-text'}, 'empty_value': '1'}) }}
+
+                        <div class="addto">
+                            <button type="submit" class="button btn-cart cart first" title="Add to Cart">Add to Cart</button>
+                            {#<button type="submit" onclick="productAddToCartForm.submit(this);" class="button btn-cart cart first" title="Add to Cart">Add to Cart</button>#}
+                            <a class="link-wishlist wishlist"  >Add to Wishlist</a> </div>
+
+                        <div style="clear:both"></div>
+
+                        <h3 class="incaps"><i class="fa fa fa-check-circle-o color-in"></i> In stock</h3>
+                        <h3 style="display:none" class="incaps"><i class="fa fa-minus-circle color-out"></i> Out of stock</h3>
+                        <h3 class="incaps"> <i class="glyphicon glyphicon-lock"></i> Secure online ordering</h3>
+                    </div>
+                    <!--/.cart-actions-->
+                </form>
 
                 <div class="clear"></div>
 
                 <div class="product-tab w100 clearfix">
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
-                        <li> <a href="#size" data-toggle="tab">Size</a></li>
+                        <li class="active"><a href="#details" data-toggle="tab">{{ 'sylius.product.attributes'|trans }}</a></li>
+                        <li> <a href="#size" data-toggle="tab">Details</a></li>
                         <li> <a href="#shipping" data-toggle="tab">Shipping</a></li>
                     </ul>
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane active" id="details">Sed ut eros felis. Vestibulum rutrum imperdiet nunc a interdum. In scelerisque libero ut elit porttitor commodo. Suspendisse laoreet magna nec urna fringilla viverra.<br>
-                            100% Cotton<br></div>
-                        <div class="tab-pane" id="size"> 16" waist<br>
-                            34" inseam<br>
-                            10.5" front rise<br>
-                            8.5" knee<br>
-                            7.5" leg opening<br>
-                            <br>
-                            Measurements taken from size 30<br>
-                            Model wears size 31. Model is 6'2 <br>
-                            <br>
+                        <div class="tab-pane active" id="details">
+                            {% if product.attributes|length > 0 %}
+                                <table class="table table-condensed">
+                                    <tbody>
+                                    {% for attribute in product.attributes %}
+                                        <tr>
+                                            <td>{{ attribute.presentation }}</td>
+                                            <td>{{ attribute.value }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane" id="size">
+                            {{ product.description }}
                         </div>
 
                         <div class="tab-pane" id="shipping">
-                            <table >
-                                <colgroup>
-                                    <col style="width:33%">
-                                    <col style="width:33%">
-                                    <col style="width:33%">
-                                </colgroup>
-                                <tbody>
-                                <tr>
-                                    <td>Standard</td>
-                                    <td>1-5 business days</td>
-                                    <td>$7.95</td>
-                                </tr>
-                                <tr>
-                                    <td>Two Day</td>
-                                    <td>2 business days</td>
-                                    <td>$15</td>
-                                </tr>
-                                <tr>
-                                    <td>Next Day</td>
-                                    <td>1 business day</td>
-                                    <td>$30</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="3">* Free on orders of $50 or more</td>
-                                </tr>
-                                </tfoot>
-                            </table>
+                            {% if product.attributes|length > 0 %}
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">{{ 'sylius.product.attributes'|trans }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for attribute in product.attributes %}
+                                        <tr>
+                                            <td>{{ attribute.presentation }}</td>
+                                            <td>{{ attribute.value }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
                         </div>
 
                     </div> <!-- /.tab content -->
@@ -320,7 +376,7 @@
 </div>
 <hr>
 <div class="row">
-    <form action="{{ path('sylius_cart_item_add', {'id': product.id}) }}" method="post" class="clearfix form-horizontal">
+    {#<form action="{{ path('sylius_cart_item_add', {'id': product.id}) }}" method="post" class="clearfix form-horizontal">#}
     <div class="col-md-6">
         {% if product.hasVariants %}
             {% if product.isVariantSelectionMethodChoice %}
@@ -387,6 +443,6 @@
             {% endif %}
         {% endif %}
     </div>
-</form>
+{#</form>#}
 </div>
 {% endblock %}
