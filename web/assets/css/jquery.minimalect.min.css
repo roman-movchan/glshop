@@ -32,7 +32,7 @@
 
  .minict_wrapper:after {
 	color: #34495E;
-    content: "‚÷ä";
+    content: "\25bc";
     display: block;
     font-size: 0.99rem;
     height: 2.1rem;
