@@ -44,9 +44,10 @@
             <!-- styles needed by mCustomScrollbar -->
             <link href="{{ asset('assets/css/jquery.mCustomScrollbar.css') }}" rel="stylesheet">
 
-            {% if is_granted('ROLE_SYLIUS_ADMIN') %}
-                {% include "CmfCreateBundle::includecssfiles.html.twig" %}
-            {% endif %}
+
+            {#{% if is_granted('ROLE_SYLIUS_ADMIN') %}#}
+                {#{% include "CmfCreateBundle::includecssfiles.html.twig" %}#}
+            {#{% endif %}#}
         {% endblock %}
 
 
@@ -108,7 +109,6 @@
             </div>
         </div>
         <!--/.navbar-top-->
-
 
         <div class="brand-block">
             <div class="container text-center">
@@ -550,7 +550,8 @@
                 {#{'_locale': app.request.locale, 'editor': 'hallo'}#}
             {#)) %}#}
         {#{% endif %}#}
-    </div>
+
+    </div> <!-- /wrapper -->
 
     <!-- Product Details Modal  -->
     <div class="modal fade" id="product-details-modal" tabindex="-1" role="dialog" aria-hidden="true">

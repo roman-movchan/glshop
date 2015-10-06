@@ -59,90 +59,92 @@
                     {{ form_widget(form._token) }}
 
                     <div class="productFilter productFilterLook2">
-                        <div class="filterBox">
-                            <select>
-                                <option value="strawberries" selected>Quantity</option>
-                                <option value="mango">1</option>
-                                <option value="bananas">2</option>
-                                <option value="watermelon">3</option>
-                                <option value="grapes">4</option>
-                                <option value="oranges">5</option>
-                                <option value="pineapple">6</option>
-                                <option value="peaches">7</option>
-                                <option value="cherries">8</option>
-                            </select>
-                        </div>
-                        <div class="filterBox">
-                            <select>
-                                <option value="strawberries" selected>Size</option>
-                                <option value="mango">XL</option>
-                                <option value="bananas">XXL</option>
-                                <option value="watermelon">M</option>
-                                <option value="apples">L</option>
-                                <option value="apples">S</option>
-                            </select>
-                        </div>
+                        {#<div class="filterBox">#}
+                            {#<select>#}
+                                {#<option value="strawberries" selected>Quantity</option>#}
+                                {#<option value="mango">1</option>#}
+                                {#<option value="bananas">2</option>#}
+                                {#<option value="watermelon">3</option>#}
+                                {#<option value="grapes">4</option>#}
+                                {#<option value="oranges">5</option>#}
+                                {#<option value="pineapple">6</option>#}
+                                {#<option value="peaches">7</option>#}
+                                {#<option value="cherries">8</option>#}
+                            {#</select>#}
+                        {#</div>#}
+                        {#<div class="filterBox">#}
+                            {#<select>#}
+                                {#<option value="strawberries" selected>Size</option>#}
+                                {#<option value="mango">XL</option>#}
+                                {#<option value="bananas">XXL</option>#}
+                                {#<option value="watermelon">M</option>#}
+                                {#<option value="apples">L</option>#}
+                                {#<option value="apples">S</option>#}
+                            {#</select>#}
+                        {#</div>#}
+
+                        {% if product.hasVariants %}
+                            {% if product.isVariantSelectionMethodChoice %}
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>{{ 'sylius.variant.price'|trans }}</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for variant in product.variants if variant.available %}
+                                        <tr>
+                                            <td>
+                                                {% if variant.presentation is empty %}
+                                                    <ul class="unstyled">
+                                                        {% for option in variant.options %}
+                                                            <li><strong>{{ option.presentation }}</strong>: {{ option.value }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% else %}
+                                                    {{ variant.presentation }}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <span class="label label-success">{{ sylius_calculate_price(variant)|sylius_price }}</span>
+                                            </td>
+                                            <td>
+                                                {% if sylius_inventory_is_available(variant) %}
+                                                    {{ form_widget(form.variant[loop.index0]) }}
+                                                {% else %}
+                                                    <span class="label label-warning">{{ 'sylius.out_of_stock'|trans }}</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                {{ form_widget(form.variant) }}
+                            {% endif %}
+                        {% else %}
+                            <h4>
+                                <span class="label label-success pull-right">{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
+                                {{ 'sylius.variant.price'|trans }}
+                            </h4>
+                        {% endif %}
                     </div>
                     <!-- productFilter -->
 
-                    {% if product.hasVariants %}
-                        {% if product.isVariantSelectionMethodChoice %}
-                            <table class="table table-condensed">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>{{ 'sylius.variant.price'|trans }}</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for variant in product.variants if variant.available %}
-                                    <tr>
-                                        <td>
-                                            {% if variant.presentation is empty %}
-                                                <ul class="unstyled">
-                                                    {% for option in variant.options %}
-                                                        <li><strong>{{ option.presentation }}</strong>: {{ option.value }}</li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% else %}
-                                                {{ variant.presentation }}
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            <span class="label label-success">{{ sylius_calculate_price(variant)|sylius_price }}</span>
-                                        </td>
-                                        <td>
-                                            {% if sylius_inventory_is_available(variant) %}
-                                                {{ form_widget(form.variant[loop.index0]) }}
-                                            {% else %}
-                                                <span class="label label-warning">{{ 'sylius.out_of_stock'|trans }}</span>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        {% else %}
-                                {{ form_widget(form.variant) }}
-                        {% endif %}
-                    {% else %}
-                        <h4>
-                            <span class="label label-success pull-right">{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
-                            {{ 'sylius.variant.price'|trans }}
-                        </h4>
-                    {% endif %}
 
 
-                    {{ form_row(form.quantity, {'attr': {'class': 'center-text'}, 'empty_value': '1'}) }}
 
                     <div class="cart-actions">
 
 
                         <div class="addto">
+                            {{ form_widget(form.quantity, {'attr': {'class': 'center-text','style':'width: 100px;'}, 'empty_value': '1'}) }}
                             <button type="submit" class="button btn-cart cart first" title="Add to Cart">Add to Cart</button>
-                            {#<button type="submit" onclick="productAddToCartForm.submit(this);" class="button btn-cart cart first" title="Add to Cart">Add to Cart</button>#}
+
                             <a class="link-wishlist wishlist"  >Add to Wishlist</a> </div>
+                        {#<button type="submit" onclick="productAddToCartForm.submit(this);" class="button btn-cart cart first" title="Add to Cart">Add to Cart</button>#}
 
                         <div style="clear:both"></div>
 
@@ -303,9 +305,7 @@
 
         </div>
 
-
         <div style="clear:both"></div>
-
 
     </div> <!-- /main-container -->
 
