@@ -394,7 +394,7 @@ class FrontendMenuBuilder extends MenuBuilder
         ));
         //$menu = $this->factory->createItem('root');
         // this item will always be displayed
-        $menu->addChild('Home', array('route' => 'sylius_cart_item_add'));
+        $menu->addChild('Home', array('route' => 'sylius_homepage'));
 
         // create the menu according to the route
         switch ($this->request->get('_route')) {
