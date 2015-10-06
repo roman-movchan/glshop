@@ -384,4 +384,65 @@ class FrontendMenuBuilder extends MenuBuilder
             $this->createTaxonomiesMenuNode($childMenu, $child);
         }
     }
+
+    public function createBreadcrumbMenu()
+    {
+        $menu = $this->factory->createItem('root', array(
+            'childrenAttributes' => array(
+                'class' => 'breadcrumb'
+            )
+        ));
+        //$menu = $this->factory->createItem('root');
+        // this item will always be displayed
+        $menu->addChild('Home', array('route' => 'sylius_cart_item_add'));
+
+        // create the menu according to the route
+        switch ($this->request->get('_route')) {
+            case 'Acme_create_post':
+                $menu
+                    ->addChild('label.create.post')
+                    ->setCurrent(true)// setCurrent is use to add a "current" css class
+                ;
+                break;
+            case 'Acme_list_post':
+                $menu
+                    ->addChild('label.list.post')
+                    ->setCurrent(true);
+                break;
+            case 'Acme_view_post':
+                $menu->addChild('label.list.post', array(
+                    'route' => 'sylius_cart_item_add'
+                ));
+
+                $menu
+                    ->addChild('label.view.post')
+                    ->setCurrent(true)
+                    ->setLabel($this->request->get('label'))
+                    // the "label" parameter must be passed in your controller
+                    // with $request->attributes->set('label','My label');
+                ;
+                break;
+            case 'Acme_add_comment_on_post':
+                $menu->addChild('label.list.post', array(
+                    'route' => 'sylius_cart_item_add'
+                ));
+
+                $menu
+                    ->addChild('label.view.post', array(
+                        'route' => 'Acme_view_post',
+                        'routeParameters' => array('slug' => $this->request->get('slug'))
+                        /* the "slug" parameter is the placeholder in the route
+                           Acme_add_comment_on_post. If no placeholder is used, then
+                           you must use the $request->attributes->set() method
+                        */
+                    ))
+                    ->setLabel($this->request->get('label'));
+                $menu
+                    ->addChild('label.add.comment')
+                    ->setCurrent(true);
+                break;
+        }
+
+        return $menu;
+    }
 }
