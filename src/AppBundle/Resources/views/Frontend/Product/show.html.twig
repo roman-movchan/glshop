@@ -6,12 +6,13 @@
     <div class="container main-container ">
         <div class="row">
             <div class="breadcrumbDiv col-lg-12">
-                <ul class="breadcrumb">
-                    <li> <a href="index.html">Home</a> </li>
-                    <li> <a href="category.html">MEN COLLECTION</a> </li>
-                    <li> <a href="sub-category.html">TSHIRT</a> </li>
-                    <li class="active">Lorem ipsum dolor sit amet </li>
-                </ul>
+                {{ knp_menu_render('app.frontend.breadcrumbs',{'currentAsLink':false}) }}
+                {#<ul class="breadcrumb">#}
+                    {#<li> <a href="index.html">Home</a> </li>#}
+                    {#<li> <a href="category.html">MEN COLLECTION</a> </li>#}
+                    {#<li> <a href="sub-category.html">TSHIRT</a> </li>#}
+                    {#<li class="active">Lorem ipsum dolor sit amet </li>#}
+                {#</ul>#}
             </div>
         </div>
         <div class="row transitionfx">
@@ -84,61 +85,59 @@
                     </div>
                     <!-- productFilter -->
 
-                            {% if product.hasVariants %}
-                                {% if product.isVariantSelectionMethodChoice %}
-                                    <table class="table table-condensed">
-                                        <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>{{ 'sylius.variant.price'|trans }}</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for variant in product.variants if variant.available %}
-                                            <tr>
-                                                <td>
-                                                    {% if variant.presentation is empty %}
-                                                        <ul class="unstyled">
-                                                            {% for option in variant.options %}
-                                                                <li><strong>{{ option.presentation }}</strong>: {{ option.value }}</li>
-                                                            {% endfor %}
-                                                        </ul>
-                                                    {% else %}
-                                                        {{ variant.presentation }}
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    <span class="label label-success">{{ sylius_calculate_price(variant)|sylius_price }}</span>
-                                                </td>
-                                                <td>
-                                                    {% if sylius_inventory_is_available(variant) %}
-                                                        {{ form_widget(form.variant[loop.index0]) }}
-                                                    {% else %}
-                                                        <span class="label label-warning">{{ 'sylius.out_of_stock'|trans }}</span>
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                {% else %}
-                                    <div class="">
-                                        {{ form_widget(form.variant) }}
-                                    </div>
-                                {% endif %}
-                            {% else %}
-                                <h4>
-                                    <span class="label label-success pull-right">{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
-                                    {{ 'sylius.variant.price'|trans }}
-                                </h4>
-                            {% endif %}
+                    {% if product.hasVariants %}
+                        {% if product.isVariantSelectionMethodChoice %}
+                            <table class="table table-condensed">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'sylius.variant.price'|trans }}</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for variant in product.variants if variant.available %}
+                                    <tr>
+                                        <td>
+                                            {% if variant.presentation is empty %}
+                                                <ul class="unstyled">
+                                                    {% for option in variant.options %}
+                                                        <li><strong>{{ option.presentation }}</strong>: {{ option.value }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% else %}
+                                                {{ variant.presentation }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="label label-success">{{ sylius_calculate_price(variant)|sylius_price }}</span>
+                                        </td>
+                                        <td>
+                                            {% if sylius_inventory_is_available(variant) %}
+                                                {{ form_widget(form.variant[loop.index0]) }}
+                                            {% else %}
+                                                <span class="label label-warning">{{ 'sylius.out_of_stock'|trans }}</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                                {{ form_widget(form.variant) }}
+                        {% endif %}
+                    {% else %}
+                        <h4>
+                            <span class="label label-success pull-right">{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
+                            {{ 'sylius.variant.price'|trans }}
+                        </h4>
+                    {% endif %}
 
 
-
+                    {{ form_row(form.quantity, {'attr': {'class': 'center-text'}, 'empty_value': '1'}) }}
 
                     <div class="cart-actions">
-                        {{ form_row(form.quantity, {'attr': {'class': 'center-text'}, 'empty_value': '1'}) }}
+
 
                         <div class="addto">
                             <button type="submit" class="button btn-cart cart first" title="Add to Cart">Add to Cart</button>
@@ -314,126 +313,23 @@
     <div class="gap"></div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="row">
-    <div class="col-md-3">
-        <a href="{{ path(product) }}" class="thumbnail">
-            <img src="{{ product.image ? product.image.path|imagine_filter('sylius_medium') : 'http://placehold.it/200x200' }}" alt="{{ product.name }}" />
-        </a>
+    <div class="row">
+        <div class="col-md-3">
+            <a href="{{ path(product) }}" class="thumbnail">
+                <img src="{{ product.image ? product.image.path|imagine_filter('sylius_medium') : 'http://placehold.it/200x200' }}" alt="{{ product.name }}" />
+            </a>
+        </div>
+        <div class="col-md-9">
+            <a href="{{ path(product) }}" class="btn btn-link"><h3>{{ product.name }}</h3></a>
+            <p>{{ product.shortDescription|default('sylius.product.no_description')|trans|raw }}</p>
+        </div>
     </div>
-    <div class="col-md-9">
-        <a href="{{ path(product) }}" class="btn btn-link"><h3>{{ product.name }}</h3></a>
-        <p>{{ product.shortDescription|default('sylius.product.no_description')|trans|raw }}</p>
-    </div>
-</div>
-{% if product.images|length > 0 %}
-<hr>
-<div id="gallery">
-    {% for image in product.images %}
-        <a href="{{ image.path|imagine_filter('sylius_large') }}" title="{{ product.name }}">
-            <img class="img-rounded" src="{{ image.path|imagine_filter('sylius_small') }}" alt="{{ product.name }}" />
-        </a>
-    {% endfor %}
-</div>
-{% endif %}
-<hr>
-<div class="row">
-    <div class="col-md-6">
-        {% if product.attributes|length > 0 %}
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th colspan="2">{{ 'sylius.product.attributes'|trans }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for attribute in product.attributes %}
-                <tr>
-                    <td>{{ attribute.presentation }}</td>
-                    <td>{{ attribute.value }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% endif %}
-    </div>
-    <div class="col-md-6">
-        <h4>{{ 'sylius.product.description'|trans }}</h4>
-        <p>{{ product.description|default('sylius.product.no_description')|trans|raw }}</p>
-    </div>
-</div>
-<hr>
-<div class="row">
-    {#<form action="{{ path('sylius_cart_item_add', {'id': product.id}) }}" method="post" class="clearfix form-horizontal">#}
-    <div class="col-md-6">
-        {% if product.hasVariants %}
-            {% if product.isVariantSelectionMethodChoice %}
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>{{ 'sylius.variant.price'|trans }}</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for variant in product.variants if variant.available %}
-                    <tr>
-                        <td>
-                            {% if variant.presentation is empty %}
-                            <ul class="unstyled">
-                                {% for option in variant.options %}
-                                <li><strong>{{ option.presentation }}</strong>: {{ option.value }}</li>
-                                {% endfor %}
-                            </ul>
-                            {% else %}
-                                {{ variant.presentation }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            <span class="label label-success">{{ sylius_calculate_price(variant)|sylius_price }}</span>
-                        </td>
-                        <td>
-                        {% if sylius_inventory_is_available(variant) %}
-                            {{ form_widget(form.variant[loop.index0]) }}
-                        {% else %}
-                            <span class="label label-warning">{{ 'sylius.out_of_stock'|trans }}</span>
-                        {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-                <div class="well clearfix">
-                    {{ form_widget(form.variant) }}
-                </div>
-            {% endif %}
-        {% else %}
-            <h4>
-                <span class="label label-success pull-right">{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
-                {{ 'sylius.variant.price'|trans }}
-            </h4>
-        {% endif %}
-    </div>
+
     <div class="col-md-6 pull-right">
         {% if not product.hasVariants and not sylius_inventory_is_available(product.masterVariant) %}
             <span class="label label-warning">{{ 'sylius.out_of_stock'|trans }}</span>
         {% else %}
             {{ form_row(form.quantity, {'attr': {'class': 'center-text'}, 'empty_value': '1'}) }}
-            {{ form_widget(form._token) }}
             <br>
             <br>
             {% if sylius_is_restricted(product) %}
@@ -443,6 +339,5 @@
             {% endif %}
         {% endif %}
     </div>
-{#</form>#}
-</div>
+
 {% endblock %}
