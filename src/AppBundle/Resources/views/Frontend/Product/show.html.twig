@@ -34,15 +34,16 @@
             <div class="col-lg-6 col-md-6 col-sm-5">
 
                 <h1 class="product-title">{{ product.name }}</h1>
-                <h3 class="product-code">Product Code : {{ product.sku }}</h3>
+                {%  if  product.sku  %}<h3 class="product-code">Код продукта : {{ product.sku }}</h3>{% endif %}
                 <div class="product-price">
                     <span class="price-sales"> {{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
-                    <span class="price-standard">{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>
+                    {#<span class="price-standard">{{ sylius_calculate_price(product.masterVariant)|sylius_price }}</span>#}
                 </div>
-
-                <div class="details-description">
-                    <p>{{ product.shortDescription|default('sylius.product.no_description')|trans|raw }}</p>
-                </div>
+                {% if product.shortDescription %}
+                    <div class="details-description">
+                        <p>{{ product.shortDescription|raw }}</p>
+                    </div>
+                {% endif %}
 
                 <form action="{{ path('sylius_cart_item_add', {'id': product.id}) }}" method="post" class="clearfix form-horizontal">
 
