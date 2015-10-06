@@ -56,6 +56,11 @@
             </call>
         </service>
 
+        <service id="app.menu.frontend.breadcrumbs" class="Knp\Menu\MenuItem" factory-service="sylius.menu_builder.frontend" factory-method="createBreadcrumbMenu" scope="request">
+            <argument type="service" id="request" />
+            <tag name="knp_menu.menu" alias="app.frontend.breadcrumbs" />
+        </service>
+
         <service id="app.menu.frontend.user" class="Knp\Menu\MenuItem" factory-service="sylius.menu_builder.frontend" factory-method="createUserMenu" scope="request">
             <argument type="service" id="request" />
             <tag name="knp_menu.menu" alias="app.frontend.user" />
