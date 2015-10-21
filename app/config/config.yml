@@ -93,6 +93,9 @@ liip_imagine:
             filesystem:
                 data_root: %kernel.root_dir%/../web/media/image
     filter_sets:
+        app_little:
+            filters:
+                thumbnail: { size: [50, 50], mode: outbound }
         app_small:
             filters:
                 thumbnail: { size: [120, 90], mode: outbound }

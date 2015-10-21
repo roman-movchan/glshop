@@ -17,18 +17,32 @@
         </div>
         <div class="row transitionfx">
 
-            <!-- left column -->
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <!-- product Image and Zoom -->
-                <div class="main-image sp-wrap col-lg-12 no-padding">
-                    {% for image in product.images %}
-                        <a href="{{ image.path|imagine_filter('sylius_large') }}" title="{{ product.name }}">
-                            <img class="img-rounded" src="{{ image.path|imagine_filter('app_large') }}"  class="img-responsive" alt="{{ product.name }}" />
-                        </a>
-                    {% endfor %}
-                </div>
-            </div><!--/ left column end -->
+            {#&#123;&#35;<!-- left column -->&#35;&#125;#}
+            {#<div class="col-lg-6 col-md-6 col-sm-6">#}
+                {#<!-- product Image and Zoom -->#}
+                {#<div class="main-image sp-wrap col-lg-12 no-padding">#}
+                    {#{% for image in product.images %}#}
+                        {#<a href="{{ image.path|imagine_filter('sylius_large') }}" title="{{ product.name }}">#}
+                            {#<img class="img-rounded" src="{{ image.path|imagine_filter('app_large') }}"  class="img-responsive" alt="{{ product.name }}" />#}
+                        {#</a>#}
+                    {#{% endfor %}#}
+                {#</div>#}
+            {#</div>#}
+            {#<!--/ left column end -->#}
 
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="sp-large">
+                    {% set mainImage = product.images.first %}
+                    <a href="{{ mainImage.path|imagine_filter('sylius_large') }}" title="{{ product.name }}">
+                        <img class="img-rounded" src="{{ mainImage.path|imagine_filter('app_large') }}"  class="img-responsive" alt="{{ product.name }}" />
+                    </a>
+                </div>
+                {#<div class="sp-thumbs sp-tb-active">#}
+                    {#<a class="sp-current" href="http://rm.glshop.sb-dev.net/media/cache/sylius_large/bb/c2/58d088ab8861638852d6d6776fd6.jpeg" title="Губная помада Lipstick">#}
+                        {#<img class="img-rounded" src="http://rm.glshop.sb-dev.net/media/cache/app_large/bb/c2/58d088ab8861638852d6d6776fd6.jpeg" alt="Губная помада Lipstick">#}
+                    {#</a>#}
+                {#</div>#}
+            </div>
 
             <!-- right column -->
             <div class="col-lg-6 col-md-6 col-sm-5">
@@ -57,6 +71,31 @@
                     {#</div>#}
                     <!--/.color-details-->
 
+                    {% if product.hasVariants %}
+                        <div class="productThumb">
+                            <div class="sp-thumbs sp-tb-active">
+                                {% for variant in product.variants if variant.available %}
+                                    {% if variant.images.first %}
+                                        <a class="{% if loop.first %}sp-current{% endif %}" href="{{ variant.image.path|imagine_filter('app_large') }}"><img src="{{ variant.image.path|imagine_filter('app_little') }}" alt="img"></a>
+                                    {% endif %}
+                                {% endfor %}
+                                {#<a class="" href="/images/zoom/zoom2hi.jpg"><img src="/images/zoom/zoom2.jpg" class="img-responsive" alt="img"></a>#}
+                                {#<a class="" href="/images/zoom/zoom3hi.jpg"><img src="/images/zoom/zoom3.jpg" class="img-responsive" alt="img"></a>#}
+                            </div>
+                        </div>
+
+                        <div class="color-details">
+                            <span class="selected-color"><strong>COLOR</strong></span>
+                            <ul class="swatches Color">
+
+                            {% for variant in product.variants if variant.available %}
+                                {% if variant.images.first %}
+                                <li {% if loop.first %}class="selected"{% endif %}> <img src="{{ variant.image.path|imagine_filter('app_little') }}" /> </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
                     {{ form_widget(form._token) }}
 
                     <div class="productFilter productFilterLook2">
